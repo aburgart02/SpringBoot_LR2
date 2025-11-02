@@ -40,6 +40,8 @@ public class Request {
 
     private int smsCode;
 
+    private long requestTime;
+
     @Override
     public String toString() {
         return "{" +

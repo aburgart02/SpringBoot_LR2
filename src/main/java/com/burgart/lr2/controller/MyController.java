@@ -3,11 +3,13 @@ package com.burgart.lr2.controller;
 import com.burgart.lr2.exception.UnsupportedCodeException;
 import com.burgart.lr2.exception.ValidationFailedException;
 import com.burgart.lr2.model.*;
+import com.burgart.lr2.service.ModifyRequestService;
 import com.burgart.lr2.service.ValidationService;
 import com.burgart.lr2.util.DateTimeUtil;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,10 +24,13 @@ import java.util.Date;
 public class MyController {
 
     private final ValidationService validationService;
+    private final ModifyRequestService modifyRequestService;
 
     @Autowired
-    public MyController(ValidationService validationService) {
+    public MyController(ValidationService validationService,
+                        @Qualifier("modifySourceRequestService") ModifyRequestService modifyRequestService) {
         this.validationService = validationService;
+        this.modifyRequestService = modifyRequestService;
     }
 
     @PostMapping(value = "/feedback")
@@ -68,6 +73,9 @@ public class MyController {
             log.info("Updated response due to an unexpected error: {}", response);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        request.setRequestTime(System.currentTimeMillis());
+        modifyRequestService.modify(request);
 
         log.info("Sending final successful response: {}", response);
         return new ResponseEntity<>(response, HttpStatus.OK);
