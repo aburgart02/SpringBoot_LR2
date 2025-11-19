@@ -18,26 +18,58 @@ public class Request {
     @NotBlank
     @Size(max = 32)
     private String uid;
-
+    /**
+     * Уникальный идентификатор операции
+     */
     @NotBlank
     @Size(max = 32)
     private String operationUid;
-
+    /**
+     * Наименование системы
+     */
     private Systems systemName;
-
+    /**
+     * Время создания сообщения
+     */
     @NotBlank
     private String systemTime;
-
+    /**
+     * Источник сообщения
+     */
     private String source;
-
+    /**
+     * Должность сотрудника
+     */
+    private Positions position;
+    /**
+     * Зарплата сотрудника
+     */
+    private Double salary;
+    /**
+     * Коэффициент бонуса
+     */
+    private Double bonus;
+    /**
+     * Количество рабочих дней
+     */
+    private Integer workDays;
+    /**
+     * Уникальный идентификатор коммуникации
+     */
     @Min(1)
     @Max(100000)
     private int communicationId;
-
+    /**
+     * Идентификатор шаблона
+     */
     private int templateId;
-
+    /**
+     * Код продукта
+     */
     private int productCode;
-
+    /**
+     * Код из смс
+     */
     private int smsCode;
 
     private long requestTime;
